@@ -1,1 +1,1 @@
-"""Brivis touch Climate Component"""
+"""Rinnai touch Climate Component"""
