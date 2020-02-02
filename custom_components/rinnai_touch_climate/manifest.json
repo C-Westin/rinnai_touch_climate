@@ -1,0 +1,8 @@
+{
+  "domain": "rinnai_touch_climate",
+  "name": "Rinnai Touch Climate",
+  "documentation": "https://github.com/C-Westin/rinnai_touch_climate",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@C-Westin"]
+}
