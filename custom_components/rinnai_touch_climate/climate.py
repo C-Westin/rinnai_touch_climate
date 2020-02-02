@@ -332,17 +332,27 @@ class ThermostatDevice(ClimateDevice):
 
     def set_temperature(self, **kwargs) -> None:
         """Set target temperature."""
-        target_temperature = kwargs.get(ATTR_TEMPERATURE)
-        if target_temperature  is None:
-            target_temperature = '25'
-        value = target_temperature
-            # self._data = self.do_api_request(BASE_URL.format(
-                # self._host,
-                # self._port,
-                # '/happ_thermstat?action=setSetpoint&Setpoint='+str(value)))
-        _LOGGER.debug("Set target temp to %s°C (value %s)", str(target_temperature), str(value))
-        self._target_temperature = target_temperature
 
+        target_temperature = kwargs.get(ATTR_TEMPERATURE)
+        if target_temperature is None:
+            return
+            
+        _LOGGER.debug("*Setting target temp: %s°C", str(target_temperature))      
+        
+        connection = connectToTouch(self._host,self._port)
+        if connection:
+            if self._hvac_mode == HVAC_MODE_HEAT:
+                sendTouchData(connection, 'N000001{{"HGOM": {{"GSO": {{"SP": "{"str(target_temperature)"}" }} }} }}')
+            elif self._hvac_mode == HVAC_MODE_COOL:
+                sendTouchData(connection, 'N000001{{"CGOM": {{"GSO": {{"SP": "{"str(target_temperature)"}" }} }} }}')
+            self._target_temperature = target_temperature
+            connection.close    
+            _LOGGER.debug("Update of target temp completed")
+            time.sleep(2)
+        else:
+            _LOGGER.debug("Connection failed")        
+        
+        
     @property
     def hvac_mode(self) -> str:
         """Return the current operation mode."""
@@ -385,5 +395,6 @@ class ThermostatDevice(ClimateDevice):
         
             connection.close    
             _LOGGER.debug("Update of hvac mode completed")
+            time.sleep(2)
         else:
             _LOGGER.debug("Connection failed")
