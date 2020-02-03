@@ -140,6 +140,12 @@ def heatMode(self, hgomData):
     """Set all the heat attributes."""
     _LOGGER.debug("Setting heater values")
 
+    gso = ''
+    oop = ''
+    gss = ''
+    zao = ''
+    zbo = ''
+    
 # Operating Mode - HGOM.OOP.ST
     oop = hgomData.get("OOP")
     if len(oop) > 0:
@@ -162,13 +168,13 @@ def heatMode(self, hgomData):
 
 # Heater target temp - HGOM.GSO.SP 
     gso = hgomData.get("GSO")
-    if gso:
+    if len(gso) > 0:
         _LOGGER.debug("Heater target temp: %s", str(gso.get("SP")))
         self._target_temperature = int(gso.get("SP"))
 
 # Set active zones - HGOM.ZxO.UE
     zao = hgomData.get("ZAO")
-    if zao:
+    if len(zao) > 0:
         if (zao.get("UE")) == "Y":
             _LOGGER.debug("Zone A On")
             self._zone_a_status = True
@@ -176,7 +182,7 @@ def heatMode(self, hgomData):
             _LOGGER.debug("Zone A Off")
             self._zone_a_status = False
     zbo = hgomData.get("ZBO")
-    if zbo:
+    if len(zbo) > 0:
         if (zbo.get("UE")) == "Y":
             _LOGGER.debug("Zone B On")
             self._zone_b_status = True
@@ -190,15 +196,22 @@ def airconMode(self, cgomData):
     """Set all the aircon attributes."""
     _LOGGER.debug("Setting aircon values")
     
+    gso = ''
+    oop = ''
+    gss = ''
+    zao = ''
+    zbo = ''
+    
     oop = cgomData.get("OOP")
-    if (oop.get("ST")) == "N":
-        #Air con is on
-        self._hvac_mode = HVAC_MODE_COOL
-        _LOGGER.debug("Aircon On")
-    else:
-        #Air-con is off
-        _LOGGER.debug("Aircon Off")
-        self._hvac_mode = HVAC_MODE_OFF
+    if len(oop) > 0:
+        if (oop.get("ST")) == "N":
+            #Air con is on
+            self._hvac_mode = HVAC_MODE_COOL
+            _LOGGER.debug("Aircon On")
+        else:
+            #Air-con is off
+            _LOGGER.debug("Aircon Off")
+            self._hvac_mode = HVAC_MODE_OFF
 
 # Aircon current activity - CGOM.GSS.HC
     gss = cgomData.get("GSS")
@@ -212,13 +225,13 @@ def airconMode(self, cgomData):
 
 # Aircon target temp - CGOM.GSO.SP 
     gso = cgomData.get("GSO")
-    if gso:
+    if len(gso) > 0:
         _LOGGER.debug("Aircon target temp: %s", str(gso.get("SP")))
         self._target_temperature = int(gso.get("SP"))
 
 # Set active zones - CGOM.ZxO.UE
     zao = cgomData.get("ZAO")
-    if zao:
+    if len(zao) > 0:
         if (zao.get("UE")) == "Y":
             _LOGGER.debug("Zone A On")
             self._zone_a_status = True
@@ -226,7 +239,7 @@ def airconMode(self, cgomData):
             _LOGGER.debug("Zone A Off")
             self._zone_a_status = False
     zbo = cgomData.get("ZBO")
-    if zbo:
+    if len(zbo) > 0:
         if (zbo.get("UE")) == "Y":
             _LOGGER.debug("Zone B On")
             self._zone_b_status = True
