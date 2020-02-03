@@ -168,13 +168,13 @@ def heatMode(self, hgomData):
 
 # Heater target temp - HGOM.GSO.SP 
     gso = hgomData.get("GSO")
-    if len(gso) > 0:
+    if gso:
         _LOGGER.debug("Heater target temp: %s", str(gso.get("SP")))
         self._target_temperature = int(gso.get("SP"))
 
 # Set active zones - HGOM.ZxO.UE
     zao = hgomData.get("ZAO")
-    if len(zao) > 0:
+    if zao:
         if (zao.get("UE")) == "Y":
             _LOGGER.debug("Zone A On")
             self._zone_a_status = True
@@ -182,7 +182,7 @@ def heatMode(self, hgomData):
             _LOGGER.debug("Zone A Off")
             self._zone_a_status = False
     zbo = hgomData.get("ZBO")
-    if len(zbo) > 0:
+    if zbo:
         if (zbo.get("UE")) == "Y":
             _LOGGER.debug("Zone B On")
             self._zone_b_status = True
@@ -225,13 +225,13 @@ def airconMode(self, cgomData):
 
 # Aircon target temp - CGOM.GSO.SP 
     gso = cgomData.get("GSO")
-    if len(gso) > 0:
+    if gso:
         _LOGGER.debug("Aircon target temp: %s", str(gso.get("SP")))
         self._target_temperature = int(gso.get("SP"))
 
 # Set active zones - CGOM.ZxO.UE
     zao = cgomData.get("ZAO")
-    if len(zao) > 0:
+    if zao:
         if (zao.get("UE")) == "Y":
             _LOGGER.debug("Zone A On")
             self._zone_a_status = True
@@ -239,7 +239,7 @@ def airconMode(self, cgomData):
             _LOGGER.debug("Zone A Off")
             self._zone_a_status = False
     zbo = cgomData.get("ZBO")
-    if len(zbo) > 0:
+    if zbo:
         if (zbo.get("UE")) == "Y":
             _LOGGER.debug("Zone B On")
             self._zone_b_status = True
