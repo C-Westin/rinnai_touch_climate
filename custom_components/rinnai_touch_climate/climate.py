@@ -25,7 +25,6 @@ climate:
     host: <IP_ADDRESS>
     port: 27847
     scan_interval: 10
-    current_temp: sensor.temperature
 
 logger:
   logs:
